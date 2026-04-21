@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="page-layout">
+        <section class="main-content">
+            <section class="current-weather-card">
+                <div class="current-weather-text">
+                    <h1 class="date-heading">{{ current_day }}, {{ current_time }}</h1>
+
+                    <div class="current-temp-row">
+                        <h2 class="current-temp">{{ current_temp }}°C</h2>
+                        <img
+                            class="current-weather-icon"
+                            src="{{ weather_condition_image }}"
+                            alt="Current weather icon"
+                        >
+                    </div>
+
+                    <p class="current-summary">
+                        Feels like {{ feelslike_c }}°C. {{ smart_summary }}
+                    </p>
+                </div>
+            </section>
+
+            <section class="main-grid">
+                <article class="info-card">
+                    <h2>Outside</h2>
+                    <p>Chance of rain {{ daily_chance_of_rain }}%</p>
+                    <p>Humidity {{ avghumidity }}%</p>
+                </article>
+
+                <article class="info-card">
+                    <h2>Time</h2>
+                    <p>Sunrise {{ current_sunrise }}</p>
+                    <p>Sunset {{ current_sunset }}</p>
+                </article>
+
+                <article class="info-card">
+                    <h2>Wind</h2>
+                    <p>Wind Direction {{ wind_direction }}</p>
+                    <p>Wind Speed {{ wind_speed }} MPH</p>
+                </article>
+
+                <article class="hourly-card">
+                    <h2>Hour</h2>
+
+                    <div class="hour-row">
+                        {% for hour in hours %}
+                            <div class="hour-item">
+                                <p class="hour-time">{{ hour.hour }}:00</p>
+                                <img
+                                    class="hour-icon"
+                                    src="{{ hour.image }}"
+                                    alt="Hourly weather icon"
+                                >
+                                <p class="hour-rain">{{ hour.rain_chance }}%</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </article>
+            </section>
+        </section>
+
+        <aside class="forecast-card">
+            <h2>3-Day Forecast</h2>
+
+            <div class="forecast-list">
+                {% for day in days %}
+                    <div class="forecast-item">
+                        <p class="forecast-day">{{ day.day }}</p>
+
+                        <img
+                            class="forecast-icon"
+                            src="{{ day.image }}"
+                            alt="{{ day.day }} weather icon"
+                        >
+
+                        <p class="forecast-details">
+                            {{ day.low_temp }}°C / {{ day.high_temp }}°C {{ day.chance_of_rain }}%
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
+        </aside>
+    </main>
+</body>
+</html>
